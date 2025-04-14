@@ -1,9 +1,12 @@
-import javax.swing.JButton;
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class StartMenu extends JFrame {
+    
+    JLabel title;
+    Container content = getContentPane();
     
     /**
      * Creates the start menu JFrame
@@ -18,9 +21,17 @@ public class StartMenu extends JFrame {
     private void initialize() {
         this.setTitle("Tetris (Menu)");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setSize(900, 500);
+        this.setSize(700, 1000);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+
+        // Add TETRIS title
+        title = new JLabel("TETRIS", SwingConstants.CENTER);
+        title.setSize(900, 50); // Set position and size
+        title.setLocation(0, 50); // Centered horizontally
+        title.setFont(title.getFont().deriveFont(50.0f)); // Set font size
+        title.setForeground(java.awt.Color.BLACK); // Set font color to white
+        content.add(title); // Add title to the content pane
 
         // Add a PLAY button
         JButton playButton = new JButton("PLAY");
