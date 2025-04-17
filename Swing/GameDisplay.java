@@ -9,6 +9,7 @@ public class GameDisplay extends JFrame {
 
     public GameDisplay() {
         initialize();
+        runGame(); // Call the runGame method to start the game
     }
 
     private void initialize() {
@@ -33,5 +34,13 @@ public class GameDisplay extends JFrame {
         // Add the button to the JFrame
         this.setLayout(null); // Use absolute positioning
         this.add(backButton);
+    }
+
+    // create a loop that runs the game
+    // every 2 seconds the shape will fall down by one block ()
+    //  every time the user provides input the shape will move 
+    public void runGame() {
+        // Create a new Board object and start the game
+        // Board board = new Board();
     }
 }

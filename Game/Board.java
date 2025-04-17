@@ -1,35 +1,35 @@
 package Game;
 
-public class Board extends Shape {
-    private Block[][] board;
-    private int fullLines;
+public class Board {
+    private static String[][] board;
+    private static int fullLines;
 
     public Board() {
-        board = new Block[22][14];
+        board = new String[22][14];
         fullLines = 0;
 
         for (int i = board.length - 1; i >= 0; i--) {
             for (int j = 0; j < board[i].length; j++) {
                 if (i == board.length - 1) { // the bottom row
                     if (j == 0 || j == board[i].length - 1) {
-                        board[i][j] = new Block(i, j, "  ");
+                        board[i][j] = "  ";
                     }
-                    else board[i][j] = new Block(i, j, " \\/");
+                    else board[i][j] = " \\/";
                 }
                 else if (j == 1) { // the "! "
-                    board[i][j] = new Block(i, j, "! ");
+                    board[i][j] = "! ";
                 }
                 else if (j == board[i].length - 2) { // the "!"
-                    board[i][j] = new Block(i, j, "!");
+                    board[i][j] = "!";
                 }
                 else if (j == board[i].length - 1) { // the righmost column
-                    board[i][j] = new Block(i, j, ">");
+                    board[i][j] = ">";
                 }
                 else if (j == 0) { // the leftmost column
-                    board[i][j] = new Block(i, j, "<");
+                    board[i][j] = "<";
                 }
                 else { // everything inbetween
-                    board[i][j] = new EmptyBlock(i, j);
+                    board[i][j] = " .";
                 }
             }
         }
@@ -42,7 +42,7 @@ public class Board extends Shape {
      * @param y the y coordinate position
      * @return whether the coordinate position contains a block or not.
      */
-    public boolean hasBlock(int x, int y) {
+    public static boolean hasBlock(int x, int y) {
         if (!board[x][y].toString().contains(".")) {
             return true;
         }
@@ -51,7 +51,28 @@ public class Board extends Shape {
         }
     }
 
-    public void clearFullLines() {
+    public static boolean isGameOver() {
+        for (int i = 0; i < board[j].length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                if(board[i][j].toString().equals("[]")
+                }
+            }
+        }
+    }
+
+    /**
+     * Adds a new block to the board using a randomly generated shape from the Shape class.
+     * 
+     */
+    public static void addNewShape() {}
+
+    /**
+     * Changes coordinates of the shape and refreshes the board.
+     * 
+     */
+    public static void shootShapeDown() {}
+
+    public static void clearFullLines() {
         for (int i = board.length - 2; i >= 0; i--) {       // good job copilot
             boolean fullLine = true;
             int fullLoc;
