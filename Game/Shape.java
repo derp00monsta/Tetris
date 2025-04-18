@@ -18,6 +18,8 @@ public class Shape {
         return coordinates;
     }
 
+    public 
+
     /**
      * Moves the shape left by one block.
      * 

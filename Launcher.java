@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import javax.swing.SwingUtilities;
 
+import Game.Board;
 import Swing.StartMenu;
 
 public class Launcher {
@@ -17,8 +18,11 @@ public class Launcher {
         //         menu.setVisible(true);
         //     }
         // });
+        Board board = new Board();
         Scanner scanner = new Scanner(System.in);
-        welcomePrint();
+        System.out.println("Welcome to Tetris!");
+        addDelay();
+        System.out.println("Are you ready to play? (yes/no)");
         String input;
         boolean startGame = false;
 
@@ -44,35 +48,48 @@ public class Launcher {
             else {
                 System.out.println("Please enter 'yes' or 'no'.");
             }
+
+            // add a shape to the board
+            Board.addNewShape();
+            // print the board
+
+            while (true) {
+                System.out.println("Which way would you like to move the block?");
+                System.out.println("l -> left, r -> right, d -> down, s -> shoot down, q -> quit");
+                try {
+                    input = scanner.nextLine();
+                    break;
+                }
+                catch (Exception e) {
+                    System.out.println("Please enter a valid input (ie l, r, d, s, q).");
+                }
+            }
+
+            switch (input) {
+                case "l":
+                    Board.moveLeft();
+                    break;
+                case "r":
+                    Board.moveRight();
+                    break;
+                case "d":
+                    Board.moveDown();
+                    break;
+                case "s":
+                    Board.shootShapeDown();
+                    break;
+                case "q":
+                    System.out.println("Have a lovely day!");
+                    System.exit(0);
+                    break;
+            }
+            Board.clearFullLines(); 
         }
+
+        
 
     
         
-    }
-
-    public static void welcomePrint() {
-        System.out.println("Welcome to Tetris!");
-        System.out.println();
-        addDelay();
-        System.out.println("Press ENTER to start the game.");
-        addDelay();
-        System.out.println("Press ESC to quit the game.");
-        addDelay();
-        System.out.println("Press SPACE to pause the game.");
-        addDelay();
-        System.out.println("Press the LEFT arrow key to move left.");   
-        addDelay();
-        System.out.println("Press the RIGHT arrow key to move right.");
-        addDelay();
-        System.out.println("Press the DOWN arrow key to drop the block.");
-        addDelay();
-        System.out.println("Press the SPACE key to shoot the block down.");
-        addDelay();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-
-        System.out.println("Are you ready to play? (yes/no)");
     }
 
     /**
