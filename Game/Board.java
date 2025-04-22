@@ -49,6 +49,15 @@ public class Board {
     }
 
     /**
+     * Returns how many full lines the user has created.
+     * 
+     * @return how many full lines the user has created
+     */
+    public static int getFullLines() {
+        return fullLines;
+    }
+
+    /**
      * Checks if the coordinate position contains a block.
      * 
      * @param x the x coordinate position
@@ -62,10 +71,6 @@ public class Board {
         else {
             return true;
         }
-    }
-
-    public static String[][] getBoard() {
-        return board;
     }
 
     /**
@@ -97,7 +102,7 @@ public class Board {
      * 
      * @return whether or not the game has ended.
      */
-    public static boolean isGameOver() { // recursion????
+    public static boolean isGameOver() { // recursion???? // how can you do this without a helper method?
         for (int j = 0; j < board[0].length; j++) {
             if (isColumnFull(j)) {
                 return true;
@@ -112,7 +117,7 @@ public class Board {
      * @param x the column to check
      * @return whether or not the column is full
      */
-    public static boolean isColumnFull(int x) {
+    private static boolean isColumnFull(int x) {
         for (int i = 0; i < board.length; i++) {
             if (board[i][x].equals(" .")) {
                 return false;
@@ -224,7 +229,7 @@ public class Board {
      * 
      * @return whether or not the shape can move down.
      */
-    public static boolean canMoveDown() {
+    private static boolean canMoveDown() {
         boolean canMoveDown = true;
         for (int i = 0; i < activeShape.getCoordinates().size(); i++) {
             int x = (int) activeShape.getCoordinates().get(i).getX();
@@ -243,7 +248,7 @@ public class Board {
      * @param y the y coordinate position of the row.
      * @return whether the row is full or not.
      */
-    public static boolean isRowFull(int y) {
+    private static boolean isRowFull(int y) {
         for (int i = 0; i < board.length; i++) {
             if (board[y][i].toString().equals(" .")) {
                 return false;
@@ -259,7 +264,7 @@ public class Board {
      * 
      * @param y the row that must be cleared
     */
-    public static void clearLine(int y) {
+    private static void clearLine(int y) {
         for (int i = y; i > 0; i--) {
             for (int j = 2; j < board[i].length - 2; j++) {
                 board[i][j] = board[i - 1][j];
