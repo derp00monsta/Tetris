@@ -3,11 +3,15 @@ package Game;
 import java.util.ArrayList;
 import java.awt.Point;
 
-public class O extends Shape {
+public class O extends Shape { //working
 
     private static ArrayList<Point> coordinates = new ArrayList<>();
     // create the coordinates of the L shape
     static {
+        coordinates.add(new Point(6, 0));
+        coordinates.add(new Point(7, 0));
+        coordinates.add(new Point(7, 1));
+        coordinates.add(new Point(6, 1));
         // add coordinates to the list
     }
     public O() {

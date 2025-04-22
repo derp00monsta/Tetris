@@ -23,14 +23,23 @@ public class Shape {
      * 
      */
     public void moveLeft() {
-        for (Point p : coordinates) {
-            p.x--;
+        for (int i = 0; i < coordinates.size(); i++) {
+            int x = (int) coordinates.get(i).getX() - 1;
+            int y = (int) coordinates.get(i).getY();
+            coordinates.get(i).setLocation(x, y);
+            System.out.println(coordinates.get(i));
         }
     }
 
+    /**
+     * Moves the shape right by one block.
+     * 
+     */
     public void moveRight() {
-        for (Point p : coordinates) {
-            p.x++;
+        for (int i = 0; i < coordinates.size(); i++) {
+            int x = (int) coordinates.get(i).getX() + 1;
+            int y = (int) coordinates.get(i).getY();
+            coordinates.get(i).setLocation(x, y);
         }
     }
 
@@ -38,16 +47,10 @@ public class Shape {
      * Moves the shape down by one block.
      */
     public void moveDown() {
-        for (Point p : coordinates) {
-            p.y--;
+        for (int i = 0; i < coordinates.size(); i++) {
+            int x = (int) coordinates.get(i).getX();
+            int y = (int) coordinates.get(i).getY() + 1;
+            coordinates.get(i).setLocation(x, y);
         }
-    }
-
-    public void shootDown(int x, int y) { // the y axis is inverted
-        for (Point p : coordinates) {
-            p.y += y;
-            p.x += x;
-        }
-
     }
 }

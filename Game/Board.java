@@ -65,7 +65,7 @@ public class Board {
      * @return whether the coordinate position contains a block or not.
      */
     public static boolean hasBlock(int x, int y) {
-        if (board[x][y].toString().contains("[]")) {
+        if (board[y][x].toString().equals(" .")) {
             return false;
         }
         else {
@@ -130,7 +130,8 @@ public class Board {
      * 
      */
     public static void addNewShape() {
-        activeShape = generateShape();
+        activeShape = new I();
+        show();
 
     }
 
@@ -184,14 +185,33 @@ public class Board {
     }
 
     /**
-     * Refreshes the location of the shape on the board.
+     * Makes the new shape visible.
      * 
      */
-    public static void refreshPose() {
+    public static void show() {
         for (Point point : activeShape.getCoordinates()) {
             int x = (int) point.getX();
             int y = (int) point.getY();
-            board[x][y] = "[]"; // display the shape on the board
+            board[y][x] = "[]"; // display the shape on the board
+        }
+    }
+
+    /**
+     * Refreshes the location of the shape on the board.
+     * 
+     */
+    public static void refreshPose(ArrayList<Point> old) {
+        for (Point point : activeShape.getCoordinates()) {
+            int x = (int) point.getX();
+            int y = (int) point.getY();
+            board[y][x] = "[]"; // display the shape on the board
+        }
+
+        for (Point point : old) {
+            int x = (int) point.getX();
+            int y = (int) point.getY();
+            board[y][x] = " .";
+            System.out.println(point);
         }
     }
 
@@ -199,18 +219,38 @@ public class Board {
      * Moves the shape left by one block and refreshes the board.
      * 
      */
-    public static void moveLeft() {
+    public static void moveLeft() throws Exception {
+        if (!canMoveLeft()) {
+            throw new Exception("You can not move left anymore.");
+        }
+        ArrayList<Point> old = new ArrayList<Point>();
+        for (Point p : activeShape.getCoordinates()) {
+            int x = (int) p.getX();
+            int y = (int) p.getY();
+
+            old.add(new Point(x, y));
+        }
         activeShape.moveLeft(); // move the shape left by one block
-        refreshPose();
+        refreshPose(old);
     }
 
     /**
      * Moves the shape right by one block and refreshes the board.
      * 
      */
-    public static void moveRight() {
+    public static void moveRight() throws Exception {
+        if (!canMoveRight()) {
+            throw new Exception("You can not move right anymore.");
+        } 
+        ArrayList<Point> old = new ArrayList<Point>();
+        for (Point p : activeShape.getCoordinates()) {
+            int x = (int) p.getX();
+            int y = (int) p.getY();
+
+            old.add(new Point(x, y));
+        }
         activeShape.moveRight(); // move the shape right by one block
-        refreshPose();
+        refreshPose(old);
     }
 
     /**
@@ -218,10 +258,18 @@ public class Board {
      * 
      */
     public static void shootShapeDown() {
+        ArrayList<Point> old = new ArrayList<Point>();
+        for (Point p : activeShape.getCoordinates()) {
+            int x = (int) p.getX();
+            int y = (int) p.getY();
+
+            old.add(new Point(x, y));
+        }
         while (canMoveDown()) {
+            old = (ArrayList<Point>) activeShape.getCoordinates().clone();
             activeShape.moveDown();
         }
-        refreshPose();
+        refreshPose(old);
     }
 
     /**
@@ -230,16 +278,44 @@ public class Board {
      * @return whether or not the shape can move down.
      */
     private static boolean canMoveDown() {
-        boolean canMoveDown = true;
-        for (int i = 0; i < activeShape.getCoordinates().size(); i++) {
-            int x = (int) activeShape.getCoordinates().get(i).getX();
-            int y = (int) activeShape.getCoordinates().get(i).getY();
-            if (hasBlock(x, y - 1)) {
-                canMoveDown = false;
-                break;
-            }
+        int x = (int) activeShape.getCoordinates().get(3).getX();
+        int y = (int) activeShape.getCoordinates().get(3).getY();
+
+        if (hasBlock(x, y + 1)) {
+            return false;
         }
-        return canMoveDown;
+        return true;
+    }
+
+    /**
+     * Checks if the shape can move right by one block.
+     * 
+     * @return whether or not the shape can move right.
+     */
+    private static boolean canMoveRight() { 
+        int x = (int) activeShape.getCoordinates().get(2).getX();
+        int y = (int) activeShape.getCoordinates().get(2).getY();
+
+        if (hasBlock(x + 1, y)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Checks if the shape can move left by one block.
+     * 
+     * @return whether or not the shape can move left.
+     */
+    private static boolean canMoveLeft() { 
+        int x = (int) activeShape.getCoordinates().get(0).getX();
+        int y = (int) activeShape.getCoordinates().get(0).getY();
+
+        if (hasBlock(x - 1, y)) {
+            return false;
+        }
+        return true;
+
     }
 
     /**
@@ -249,7 +325,7 @@ public class Board {
      * @return whether the row is full or not.
      */
     private static boolean isRowFull(int y) {
-        for (int i = 0; i < board.length; i++) {
+        for (int i = 0; i < board[y].length; i++) {
             if (board[y][i].toString().equals(" .")) {
                 return false;
             }
@@ -267,8 +343,11 @@ public class Board {
     private static void clearLine(int y) {
         for (int i = y; i > 0; i--) {
             for (int j = 2; j < board[i].length - 2; j++) {
-                board[i][j] = board[i - 1][j];
-                board[i - 1][j] = " .";
+                if (!board[i][j].equals("\\/")) {
+                    board[i][j] = board[i - 1][j];
+                    board[i - 1][j] = " .";
+                }
+
             }
         }
     }
