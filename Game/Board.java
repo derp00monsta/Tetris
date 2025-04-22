@@ -83,15 +83,43 @@ public class Board {
         System.out.println();
     }
 
-    // public static boolean isGameOver() {
-    //     for (int i = 0; i < board[j].length; i++) {
-    //         for (int j = 0; j < board.length; j++) {
-    //             if(board[i][j].toString().equals("[]")
-    //             }
-    //         }
-    //     }
-    // }
+    /**
+     * Clears the content displayed on the screen.
+     * 
+     */
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
 
+    /**
+     * Checks if there is a full column and the game is over.
+     * 
+     * @return whether or not the game has ended.
+     */
+    public static boolean isGameOver() { // recursion????
+        for (int j = 0; j < board[0].length; j++) {
+            if (isColumnFull(j)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if the column is full.
+     * 
+     * @param x the column to check
+     * @return whether or not the column is full
+     */
+    public static boolean isColumnFull(int x) {
+        for (int i = 0; i < board.length; i++) {
+            if (board[i][x].equals(" .")) {
+                return false;
+            }
+        }
+        return true;
+    }
     /**
      * Adds a new block to the board using a randomly generated shape from the Shape class.
      * 
@@ -233,7 +261,10 @@ public class Board {
     */
     public static void clearLine(int y) {
         for (int i = y; i > 0; i--) {
-            board[i] = board[i - 1];
+            for (int j = 2; j < board[i].length - 2; j++) {
+                board[i][j] = board[i - 1][j];
+                board[i - 1][j] = " .";
+            }
         }
     }
 

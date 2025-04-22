@@ -20,19 +20,20 @@ public class Launcher {
         // });
         Board board = new Board();
         Scanner scanner = new Scanner(System.in);
+        Board.clearScreen();
         System.out.println("Welcome to Tetris!");
         System.out.println("To play, it is best to extend your terminal.");
         addDelay();
         System.out.println("Are you ready to play? (yes/no)");
         String input;
-        boolean startGame = false;
+        boolean lost = false;
+        boolean quit = false;
 
         // after each move, 
         
         while(true) {
             input = scanner.nextLine();
             if (input.equals("yes")){
-                startGame = true;
                 break;
             }
             else if (input.equals("no")) {
@@ -44,12 +45,14 @@ public class Launcher {
             }
         }
 
+        Board.clearScreen();
+
             // add a shape to the board
             Board.addNewShape();
             Board.printBoard();
             // print the board
 
-            while (true) {
+            while (!lost && !quit) {
                 System.out.println("Which way would you like to move the block?");
                 System.out.println("l -> left, r -> right, s -> shoot down, q -> quit");
                 try {
@@ -59,24 +62,27 @@ public class Launcher {
                 catch (Exception e) {
                     System.out.println("Please enter a valid input (ie l, r, s, q).");
                 }
+                
+                switch (input) {
+                    case "l":
+                        Board.moveLeft();
+                        break;
+                    case "r":
+                        Board.moveRight();
+                        break;
+                    case "s":
+                        Board.shootShapeDown();
+                        break;
+                    case "q":
+                        System.out.println("Have a lovely day!");
+                        System.exit(0);
+                        break;
+                }
+                Board.clearFullLines(); 
             }
 
-            switch (input) {
-                case "l":
-                    Board.moveLeft();
-                    break;
-                case "r":
-                    Board.moveRight();
-                    break;
-                case "s":
-                    Board.shootShapeDown();
-                    break;
-                case "q":
-                    System.out.println("Have a lovely day!");
-                    System.exit(0);
-                    break;
-            }
-            Board.clearFullLines(); 
+
+            //continue logic to prevent infinite game loop and end the game
 
         
 
