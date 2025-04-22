@@ -21,22 +21,16 @@ public class Launcher {
         Board board = new Board();
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to Tetris!");
+        System.out.println("To play, it is best to extend your terminal.");
         addDelay();
         System.out.println("Are you ready to play? (yes/no)");
         String input;
         boolean startGame = false;
 
+        // after each move, 
         
         while(true) {
-            while(true) {
-                try {
-                    input = scanner.nextLine();
-                    break;
-                }
-                catch (Exception e) {
-                    System.out.println("Error: " + e.getMessage());
-                }
-            }
+            input = scanner.nextLine();
             if (input.equals("yes")){
                 startGame = true;
                 break;
@@ -48,20 +42,22 @@ public class Launcher {
             else {
                 System.out.println("Please enter 'yes' or 'no'.");
             }
+        }
 
             // add a shape to the board
             Board.addNewShape();
+            Board.printBoard();
             // print the board
 
             while (true) {
                 System.out.println("Which way would you like to move the block?");
-                System.out.println("l -> left, r -> right, d -> down, s -> shoot down, q -> quit");
+                System.out.println("l -> left, r -> right, s -> shoot down, q -> quit");
                 try {
                     input = scanner.nextLine();
                     break;
                 }
                 catch (Exception e) {
-                    System.out.println("Please enter a valid input (ie l, r, d, s, q).");
+                    System.out.println("Please enter a valid input (ie l, r, s, q).");
                 }
             }
 
@@ -72,9 +68,6 @@ public class Launcher {
                 case "r":
                     Board.moveRight();
                     break;
-                case "d":
-                    Board.moveDown();
-                    break;
                 case "s":
                     Board.shootShapeDown();
                     break;
@@ -84,7 +77,6 @@ public class Launcher {
                     break;
             }
             Board.clearFullLines(); 
-        }
 
         
 

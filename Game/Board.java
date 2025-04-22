@@ -1,6 +1,7 @@
 package Game;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 public class Board {
     private static Shape activeShape;
@@ -95,7 +96,24 @@ public class Board {
      * Adds a new block to the board using a randomly generated shape from the Shape class.
      * 
      */
-    public static void addNewShape() {}
+    public static void addNewShape() {
+        activeShape = generateShape();
+
+    }
+
+    /**
+     * Checks if the active shape is settled and can not move any farther down.
+     * 
+     * @return whether or not the shape is settled
+     */
+    public static boolean isSettled() {
+        for (Point loc : activeShape.getCoordinates()) {
+            if (hasBlock((int) loc.getX(), (int) loc.getY() - 1)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Generates a random shape.
@@ -132,6 +150,10 @@ public class Board {
         return shape;
     }
 
+    /**
+     * Refreshes the location of the shape on the board.
+     * 
+     */
     public static void refreshPose() {
         for (Point point : activeShape.getCoordinates()) {
             int x = (int) point.getX();
@@ -195,7 +217,7 @@ public class Board {
      */
     public static boolean isRowFull(int y) {
         for (int i = 0; i < board.length; i++) {
-            if (board[i][y].toString().equals(" .")) {
+            if (board[y][i].toString().equals(" .")) {
                 return false;
             }
         }
@@ -203,43 +225,41 @@ public class Board {
 
     }
 
-
-    // this method should use isRowFull() to check if the row is full
-    // if the row is full then all of the blocks in the row should be replaced by the ones above it
-    // this method should move from the bottom of the board (when y is at max) to the top of the board (min y)
-    public static void clearFullLines() {
-        for (int i = board.length - 2; i >= 0; i--) {       // good job copilot
-            boolean fullLine = true;
-            int fullLoc;
-            for (int j = 1; j < board[i].length - 1; j++) {
-                if (board[i][j].toString().equals(" .")) {
-                    fullLine = false;
-                    break;
-                }
-            }
-            if (fullLine) {
-                fullLoc = i;
-                for (int k = fullLoc; k < board.length - 1; k++) {
-                    board[k] = board[k + 1];
-                }
-            }
-            
-            // if (fullLine) {                      // im not so sure about this part
-            //     fullLines++;
-            //     for (int k = i; k < board.length - 1; k++) {
-            //         board[k] = board[k + 1];
-            //     }
-            //     board[board.length - 1] = new Block[board[0].length];
-            //     for (int j = 0; j < board[board.length - 1].length; j++) {
-            //         if (j == 0) {
-            //             board[board.length - 1][j] = new Block("<");
-            //         } else if (j == board[board.length - 1].length - 1) {
-            //             board[board.length - 1][j] = new Block(">");
-            //         } else {
-            //             board[board.length - 1][j] = new EmptyBlock();
-            //         }
-            //     }
-            // }
+    // this should shift all blocks above row y down
+    /**
+     * Shifts all blocks that are above row y to clear the full lines
+     * 
+     * @param y the row that must be cleared
+    */
+    public static void clearLine(int y) {
+        for (int i = y; i > 0; i--) {
+            board[i] = board[i - 1];
         }
+    }
+
+
+    /**
+     * Clears the lines that are full and updates the number of full lines created by the player
+     * 
+     */
+    public static void clearFullLines() {
+        int fullLines = 0; //used to move everything down by the number of lines cleared
+        ArrayList<Integer> linesToClear = new ArrayList<Integer>();
+
+        // check which lines should be cleared
+        for (int i = 0; i < board.length; i++) {
+            if (isRowFull(i)) {
+                fullLines++;
+                linesToClear.add(i);
+
+            }
+        }
+
+        // clear the lines that are full
+        for (Integer row : linesToClear) {
+            clearLine(row);
+        }
+
+        Board.fullLines = fullLines;
     }
 }
