@@ -27,7 +27,6 @@ public class Shape {
             int x = (int) coordinates.get(i).getX() - 1;
             int y = (int) coordinates.get(i).getY();
             coordinates.get(i).setLocation(x, y);
-            System.out.println(coordinates.get(i));
         }
     }
 
@@ -52,5 +51,32 @@ public class Shape {
             int y = (int) coordinates.get(i).getY() + 1;
             coordinates.get(i).setLocation(x, y);
         }
+    }
+
+    /**
+     * Finds the x-coordinate of the leftmost edge of the shape.
+     * 
+     * @return the x-coordinate
+     */
+    public int getLeftEdge() {
+        return (int) coordinates.get(0).getX();
+    }
+
+    /**
+     * Finds the x-coordinate of the rightmost edge of the shape.
+     * 
+     * @return the x-coordinate
+     */
+    public int getRightEdge() {
+        return (int) coordinates.get(2).getX();
+    }
+
+    /**
+     * Finds the y-coordinate of the bottom edge of the shape.
+     * 
+     * @return the y-coordinate
+     */
+    public int getBottomEdge() {
+        return (int) coordinates.get(3).getY();
     }
 }

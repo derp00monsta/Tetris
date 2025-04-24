@@ -20,5 +20,8 @@ public class L extends Shape {
         super(coordinates);
     }
     
-    
+    @Override
+    public String toString() {
+        return "L";
+    }
 }

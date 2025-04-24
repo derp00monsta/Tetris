@@ -7,10 +7,13 @@ public class Board {
     private static Shape activeShape;
     private static String[][] board;
     private static int fullLines;
+    private static boolean switchShape;
+
 
     public Board() {
         board = new String[22][14];
         fullLines = 0;
+        switchShape = true;
 
         setBoard();
     }
@@ -119,34 +122,40 @@ public class Board {
      */
     private static boolean isColumnFull(int x) {
         for (int i = 0; i < board.length; i++) {
-            if (board[i][x].equals(" .")) {
+            if (!board[i][x].equals("[]")) {
                 return false;
             }
         }
         return true;
     }
+
     /**
      * Adds a new block to the board using a randomly generated shape from the Shape class.
      * 
      */
-    public static void addNewShape() {
-        activeShape = new I();
-        show();
-
-    }
-
-    /**
-     * Checks if the active shape is settled and can not move any farther down.
-     * 
-     * @return whether or not the shape is settled
-     */
-    public static boolean isSettled() {
-        for (Point loc : activeShape.getCoordinates()) {
-            if (hasBlock((int) loc.getX(), (int) loc.getY() - 1)) {
-                return true;
+    public static void addNewShape() { // something is up with checking if i can move down
+        if (!switchShape) {
+            boolean successful = false;
+            while (!successful) {
+                activeShape = generateShape();
+                show();
+                int x = (int) activeShape.getCoordinates().get(0).getX();
+                int y = (int) activeShape.getCoordinates().get(0).getY();
+                if (hasBlock(x, y)) {
+                    successful = true;
+                    System.out.println("SHAPE SWITCHED");
+                }
             }
+
         }
-        return false;
+        if (switchShape) {
+            activeShape = generateShape();
+            switchShape = false;
+        }
+        show();
+        System.out.println(activeShape);
+        System.out.println("Switch:" + switchShape);
+
     }
 
     /**
@@ -155,7 +164,8 @@ public class Board {
      * @return a random shape.
      */
     private static Shape generateShape() {
-        int randomNum = (int) (Math.random() * 7); // generates a random number between 0 and 6
+        int randomNum = (int) (Math.random() * 6); // generates a random number between 0 and 6, OR SO COPILOT THOUGHT)
+        System.out.println(randomNum);
         Shape shape = null;
 
         switch(randomNum) {
@@ -201,17 +211,29 @@ public class Board {
      * 
      */
     public static void refreshPose(ArrayList<Point> old) {
+        for (Point point : old) {
+            int x = (int) point.getX();
+            int y = (int) point.getY();
+            board[y][x] = " .";
+        }
+
         for (Point point : activeShape.getCoordinates()) {
             int x = (int) point.getX();
             int y = (int) point.getY();
             board[y][x] = "[]"; // display the shape on the board
         }
+    }
 
-        for (Point point : old) {
-            int x = (int) point.getX();
-            int y = (int) point.getY();
-            board[y][x] = " .";
-            System.out.println(point);
+    /**
+     * Moves the shape down by one block.
+     * 
+     */
+    public static void moveDown() {
+        if (!canMoveDown()) {
+            switchShape = true;
+        }
+        else {
+            activeShape.moveDown();
         }
     }
 
@@ -223,15 +245,17 @@ public class Board {
         if (!canMoveLeft()) {
             throw new Exception("You can not move left anymore.");
         }
-        ArrayList<Point> old = new ArrayList<Point>();
-        for (Point p : activeShape.getCoordinates()) {
-            int x = (int) p.getX();
-            int y = (int) p.getY();
-
-            old.add(new Point(x, y));
+        else {
+            ArrayList<Point> old = new ArrayList<Point>();
+            for (Point p : activeShape.getCoordinates()) {
+                int x = (int) p.getX();
+                int y = (int) p.getY();
+    
+                old.add(new Point(x, y));
+            }
+            activeShape.moveLeft(); // move the shape left by one block
+            refreshPose(old);
         }
-        activeShape.moveLeft(); // move the shape left by one block
-        refreshPose(old);
     }
 
     /**
@@ -250,6 +274,7 @@ public class Board {
             old.add(new Point(x, y));
         }
         activeShape.moveRight(); // move the shape right by one block
+        activeShape.moveDown();
         refreshPose(old);
     }
 
@@ -258,18 +283,21 @@ public class Board {
      * 
      */
     public static void shootShapeDown() {
-        ArrayList<Point> old = new ArrayList<Point>();
-        for (Point p : activeShape.getCoordinates()) {
-            int x = (int) p.getX();
-            int y = (int) p.getY();
-
-            old.add(new Point(x, y));
-        }
         while (canMoveDown()) {
-            old = (ArrayList<Point>) activeShape.getCoordinates().clone();
+            clearScreen();
+            ArrayList<Point> old = new ArrayList<Point>();
+            for (Point p : activeShape.getCoordinates()) {
+                int x = (int) p.getX();
+                int y = (int) p.getY();
+    
+                old.add(new Point(x, y));
+            }
             activeShape.moveDown();
+            refreshPose(old);
+            printBoard();
+            addDelay(300);
         }
-        refreshPose(old);
+        System.out.println("Shoot down done");
     }
 
     /**
@@ -277,12 +305,15 @@ public class Board {
      * 
      * @return whether or not the shape can move down.
      */
-    private static boolean canMoveDown() {
-        int x = (int) activeShape.getCoordinates().get(3).getX();
-        int y = (int) activeShape.getCoordinates().get(3).getY();
-
-        if (hasBlock(x, y + 1)) {
-            return false;
+    public static boolean canMoveDown() {
+        int x;
+        int y;
+        for (Point p : activeShape.getCoordinates()) {
+            x = (int) p.getX();
+            y = (int) p.getY();
+            if (y == activeShape.getBottomEdge() && hasBlock(x, y + 1)) {
+                return false;
+            }
         }
         return true;
     }
@@ -293,11 +324,14 @@ public class Board {
      * @return whether or not the shape can move right.
      */
     private static boolean canMoveRight() { 
-        int x = (int) activeShape.getCoordinates().get(2).getX();
-        int y = (int) activeShape.getCoordinates().get(2).getY();
-
-        if (hasBlock(x + 1, y)) {
-            return false;
+        int x;
+        int y;
+        for (Point p : activeShape.getCoordinates()) {
+            x = (int) p.getX();
+            y = (int) p.getY();
+            if (x == activeShape.getRightEdge() && hasBlock(x + 1, y)) {
+                return false;
+            }
         }
         return true;
     }
@@ -308,14 +342,16 @@ public class Board {
      * @return whether or not the shape can move left.
      */
     private static boolean canMoveLeft() { 
-        int x = (int) activeShape.getCoordinates().get(0).getX();
-        int y = (int) activeShape.getCoordinates().get(0).getY();
-
-        if (hasBlock(x - 1, y)) {
-            return false;
+        int x;
+        int y;
+        for (Point p : activeShape.getCoordinates()) {
+            x = (int) p.getX();
+            y = (int) p.getY();
+            if (x == activeShape.getLeftEdge() && hasBlock(x - 1, y)) {
+                return false;
+            }
         }
         return true;
-
     }
 
     /**
@@ -343,7 +379,7 @@ public class Board {
     private static void clearLine(int y) {
         for (int i = y; i > 0; i--) {
             for (int j = 2; j < board[i].length - 2; j++) {
-                if (!board[i][j].equals("\\/")) {
+                if (board[i][j].equals("[]")) {
                     board[i][j] = board[i - 1][j];
                     board[i - 1][j] = " .";
                 }
@@ -376,5 +412,25 @@ public class Board {
         }
 
         Board.fullLines = fullLines;
+    }
+
+    /**
+     * Add a delay to the program for a specified duration.
+     */
+    private static void addDelay() {
+        addDelay(600);
+    }
+
+    /**
+     * Add a delay to the program for a specified duration.
+     * 
+     * @param duration to delay the program for in milliseconds.
+     */
+    private static void addDelay(long duration) {
+        try {
+            Thread.sleep(duration);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

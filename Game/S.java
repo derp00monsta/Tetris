@@ -19,4 +19,9 @@ public class S extends Shape {
         // then user the super constructor to create the shape
         super(coordinates);
     }
+
+    @Override
+    public String toString() {
+        return "S";
+    }
 }
