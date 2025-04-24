@@ -7,6 +7,15 @@ import javax.swing.SwingUtilities;
 import Game.Board;
 import Swing.StartMenu;
 
+/**
+ * Filename: Launcher.java
+ * 
+ * @author Tina Hague
+ * @version 1.0
+ * @since 1.0
+ * 
+ * Last Updated:
+ */
 public class Launcher {
     public static void main(String[] args) {
         // SwingUtilities.invokeLater(new Runnable() {
@@ -30,8 +39,6 @@ public class Launcher {
         boolean lost = false;
         Board.addNewShape();
 
-        // after each move, 
-        
         while(true) {
             input = scanner.nextLine();
             if (input.equals("yes")){
@@ -47,76 +54,58 @@ public class Launcher {
         }
 
         Board.clearScreen();
+        Board.printBoard();
 
-            Board.printBoard();
-            // print the board
-
-            while (!lost) {
+        while (!lost) {
                // Board.clearScreen();
                 //Board.printBoard();
-                System.out.println("Which way would you like to move the block?");
-                System.out.println("l -> left");
-                System.out.println("r -> right");
-                System.out.println("s -> shoot down");
-                System.out.println("q -> quit");
-                while(true) {
-                    input = scanner.nextLine();
-                    if (input.equals("l") || input.equals("r") || input.equals("s") || input.equals("q")) {
-                        break;
-                    }
-                    else {
-                        System.out.println("Please enter valid input (l, r, s, q)");
-                    }
+            System.out.println("Which way would you like to move the block?");
+            System.out.println("l -> left");
+            System.out.println("r -> right");
+            System.out.println("s -> shoot down");
+            System.out.println("q -> quit");
+            while(true) {
+                input = scanner.nextLine();
+                if (input.equals("l") || input.equals("r") || input.equals("s") || input.equals("q")) {
+                    break;
                 }
-
-                switch (input) { // y = 7 or 8
-                    case "l":
-                        try{
-                            Board.moveLeft();
-                        }
-                        catch(Exception e){
-                            System.out.println(e.getMessage());
-                        }
-                        break;
-                    case "r":
-                        try {
-                            Board.moveRight();
-                        }
-                        catch(Exception e) {
-                            System.out.println(e.getMessage());
-                        }
-                        break;
-                    case "s":
-                        Board.shootShapeDown();
-                        break;
-                    case "q":
-                        System.out.println("Have a lovely day!");
-                        System.exit(0);
-                        break;
+                else {
+                    System.out.println("Please enter valid input (l, r, s, q)");
                 }
-                Board.clearScreen();
-                Board.moveDown();
-               // while (!Board.canMoveDown()) {
-                    Board.addNewShape();
-
-                //}
-                //Board.clearFullLines(); 
-                // if (!Board.canMoveDown()) {
-                //     Board.addNewShape(); // some of the shapes do not work, print them to find which ones dont work
-                //     //System.out.println("New shape");
-                // }
-                System.out.println(Board.canMoveDown());
-                Board.printBoard();
-                lost = Board.isGameOver() ? true : false;
             }
-
-
-            //continue logic to prevent infinite game loop and end the game
-
-        
-
-    
-        
+            switch (input) {
+                case "l":
+                    try{
+                        Board.moveLeft();
+                    }
+                    catch(Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                        break;
+                case "r":
+                    try {
+                        Board.moveRight();
+                    }
+                    catch(Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case "s":
+                    Board.shootShapeDown();
+                    break;
+                case "q":
+                    System.out.println("Have a lovely day!");
+                    System.exit(0);
+                    break;
+            }
+            Board.clearScreen();
+            Board.moveDown();
+            Board.addNewShape();
+           // Board.clearFullLines(); 
+            System.out.println(Board.canMoveDown());
+            Board.printBoard();
+            lost = Board.isGameOver() ? true : false;
+        }
     }
 
     /**

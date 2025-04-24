@@ -3,6 +3,15 @@ package Game;
 import java.awt.Point;
 import java.util.ArrayList;
 
+/**
+ * Filename: Board.java
+ * 
+ * @author Tina Hague
+ * @version 1.0
+ * @since 1.0
+ * 
+ * Last Updated: 
+ */
 public class Board {
     private static Shape activeShape;
     private static String[][] board;
@@ -143,19 +152,20 @@ public class Board {
                 int y = (int) activeShape.getCoordinates().get(0).getY();
                 if (hasBlock(x, y)) {
                     successful = true;
-                    System.out.println("SHAPE SWITCHED");
                 }
             }
 
         }
-        if (switchShape) {
+        while (switchShape || !canMoveDown()) {
             activeShape = generateShape();
             switchShape = false;
+            show();
         }
-        show();
+        // while (!hasBlock((int) activeShape.getCoordinates().get(0).getX(), (int) activeShape.getCoordinates().get(0).getY())) {
+        //     show();
+        // }
         System.out.println(activeShape);
         System.out.println("Switch:" + switchShape);
-
     }
 
     /**
@@ -164,8 +174,7 @@ public class Board {
      * @return a random shape.
      */
     private static Shape generateShape() {
-        int randomNum = (int) (Math.random() * 6); // generates a random number between 0 and 6, OR SO COPILOT THOUGHT)
-        System.out.println(randomNum);
+        int randomNum = (int) (Math.random() * 7); // generates a random number between 0 and 6
         Shape shape = null;
 
         switch(randomNum) {
@@ -190,6 +199,8 @@ public class Board {
             case 6:
                 shape = new O();
                 break;
+            default:
+                shape = new O();
         }
         return shape;
     }
@@ -295,9 +306,8 @@ public class Board {
             activeShape.moveDown();
             refreshPose(old);
             printBoard();
-            addDelay(300);
+            addDelay(200);
         }
-        System.out.println("Shoot down done");
     }
 
     /**
