@@ -17,12 +17,14 @@ public class Board {
     private static String[][] board;
     private static int fullLines;
     private static boolean switchShape;
+    private static boolean gameOver;
 
 
     public Board() {
         board = new String[22][14];
         fullLines = 0;
         switchShape = true;
+        gameOver = false;
 
         setBoard();
     }
@@ -115,12 +117,13 @@ public class Board {
      * @return whether or not the game has ended.
      */
     public static boolean isGameOver() { // recursion???? // how can you do this without a helper method?
-        for (int j = 0; j < board[0].length; j++) {
-            if (isColumnFull(j)) {
-                return true;
-            }
-        }
-        return false;
+        return !canFitNewShape();
+        // for (int j = 0; j < board[0].length; j++) {
+        //     if (isColumnFull(j)) {
+        //         return true;
+        //     }
+        // }
+        // return false;
     }
 
     /**
@@ -142,30 +145,69 @@ public class Board {
      * Adds a new block to the board using a randomly generated shape from the Shape class.
      * 
      */
-    public static void addNewShape() { // something is up with checking if i can move down
-        if (!switchShape) {
-            boolean successful = false;
-            while (!successful) {
-                activeShape = generateShape();
-                show();
-                int x = (int) activeShape.getCoordinates().get(0).getX();
-                int y = (int) activeShape.getCoordinates().get(0).getY();
-                if (hasBlock(x, y)) {
-                    successful = true;
-                }
-            }
-
-        }
-        while (switchShape || !canMoveDown()) {
-            activeShape = generateShape();
-            switchShape = false;
-            show();
-        }
-        // while (!hasBlock((int) activeShape.getCoordinates().get(0).getX(), (int) activeShape.getCoordinates().get(0).getY())) {
-        //     show();
+    public static void addNewShape() { 
+        // if (!switchShape) {
+        //     boolean successful = false;
+        //     while (!successful) {
+        //         activeShape = generateShape();
+        //         show();
+        //         int x = (int) activeShape.getCoordinates().get(0).getX();
+        //         int y = (int) activeShape.getCoordinates().get(0).getY();
+        //         if (hasBlock(x, y)) {
+        //             successful = true;
+        //         }
+        //     }
         // }
-        System.out.println(activeShape);
-        System.out.println("Switch:" + switchShape);
+        int i = 0;
+        while (!canMoveDown() && canFitNewShape()) { //definetly infinite
+            activeShape = generateShape();
+            // switchShape = false;
+            show();
+            i++;
+            System.out.println("at top:" + atTop());
+            System.out.println("game over" + isGameOver());
+            System.out.println(activeShape);
+            System.out.print(i);
+            System.out.println("INFINITE????");
+            printBoard();
+            // if (i > 10 && atTop()) {
+            //     flash();
+            //     System.out.println("GAME OVER");
+            //     System.exit(0);
+            //     break;
+            // }
+
+            // if (i >= 10) {
+            //     System.out.println("GAME OVER");
+            //     System.exit(0);
+            // }
+        }
+    }
+    
+    private static boolean canFitNewShape() { //this is working but now make it dependent on what the next shape will be
+        for (String str : board[4]) {
+            if (str.equals("[]")) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Checks to see if the shape is at the top of the board.
+     * 
+     * @return whether or not the shape is at the top of the board.
+     */
+    private static boolean atTop() {
+        if (activeShape == null) {
+            System.out.println("NULL");
+            return false;
+        }
+        int y = (int) activeShape.getCoordinates().get(0).getY();
+        if (y == 0) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -218,6 +260,22 @@ public class Board {
     }
 
     /**
+     * Flashes the board display.
+     * 
+     */
+    public static void flash() {
+        printBoard();
+        addDelay(150);
+        //clearScreen();
+        addDelay(150);
+        printBoard();
+        addDelay(150);
+        //clearScreen();
+        addDelay(150);
+        printBoard();
+    }
+
+    /**
      * Refreshes the location of the shape on the board.
      * 
      */
@@ -240,10 +298,7 @@ public class Board {
      * 
      */
     public static void moveDown() {
-        if (!canMoveDown()) {
-            switchShape = true;
-        }
-        else {
+        if (canMoveDown()) {
             activeShape.moveDown();
         }
     }
@@ -295,7 +350,7 @@ public class Board {
      */
     public static void shootShapeDown() {
         while (canMoveDown()) {
-            clearScreen();
+            //clearScreen();
             ArrayList<Point> old = new ArrayList<Point>();
             for (Point p : activeShape.getCoordinates()) {
                 int x = (int) p.getX();
@@ -318,6 +373,9 @@ public class Board {
     public static boolean canMoveDown() {
         int x;
         int y;
+        if (activeShape == null) {
+            return false;
+        }
         for (Point p : activeShape.getCoordinates()) {
             x = (int) p.getX();
             y = (int) p.getY();
@@ -427,7 +485,7 @@ public class Board {
     /**
      * Add a delay to the program for a specified duration.
      */
-    private static void addDelay() {
+    public static void addDelay() {
         addDelay(600);
     }
 
@@ -436,7 +494,7 @@ public class Board {
      * 
      * @param duration to delay the program for in milliseconds.
      */
-    private static void addDelay(long duration) {
+    public static void addDelay(long duration) {
         try {
             Thread.sleep(duration);
         } catch (InterruptedException e) {

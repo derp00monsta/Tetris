@@ -30,10 +30,11 @@ public class Launcher {
         Board board = new Board();
         Scanner scanner = new Scanner(System.in);
 
-        Board.clearScreen();
+        //Board.clearScreen();
         System.out.println("Welcome to Tetris!");
         System.out.println("To play, it is best to extend your terminal.");
-        addDelay();
+        System.out.println("The game ends when you choose to quit or when a new playable shape can not be added.");
+        Board.addDelay();
         System.out.println("Are you ready to play? (yes/no)");
         String input;
         boolean lost = false;
@@ -53,12 +54,10 @@ public class Launcher {
             }
         }
 
-        Board.clearScreen();
+       // Board.clearScreen();
         Board.printBoard();
 
-        while (!lost) {
-               // Board.clearScreen();
-                //Board.printBoard();
+        while (!Board.isGameOver()) {
             System.out.println("Which way would you like to move the block?");
             System.out.println("l -> left");
             System.out.println("r -> right");
@@ -80,6 +79,7 @@ public class Launcher {
                     }
                     catch(Exception e){
                         System.out.println(e.getMessage());
+                        Board.addDelay(1000);
                     }
                         break;
                 case "r":
@@ -88,43 +88,30 @@ public class Launcher {
                     }
                     catch(Exception e) {
                         System.out.println(e.getMessage());
+                        Board.addDelay(1000);
                     }
                     break;
                 case "s":
                     Board.shootShapeDown();
                     break;
                 case "q":
-                    System.out.println("Have a lovely day!");
+                    System.out.println("Thank you for playing!");
                     System.exit(0);
+                    lost = true;
                     break;
             }
-            Board.clearScreen();
+            //Board.clearScreen();
             Board.moveDown();
             Board.addNewShape();
            // Board.clearFullLines(); 
             System.out.println(Board.canMoveDown());
             Board.printBoard();
-            lost = Board.isGameOver() ? true : false;
         }
-    }
-
-    /**
-     * Add a delay to the program for a specified duration.
-     */
-    private static void addDelay() {
-        addDelay(600);
-    }
-
-    /**
-     * Add a delay to the program for a specified duration.
-     * 
-     * @param duration to delay the program for in milliseconds.
-     */
-    private static void addDelay(long duration) {
-        try {
-            Thread.sleep(duration);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Board.flash();
+        System.out.println("GAME OVER");
+        // if (lost) {
+        //     Board.flash();
+        //     System.out.println("GAME OVER");
+        // }
     }
 }
