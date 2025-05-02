@@ -164,12 +164,6 @@ public class Board {
             // switchShape = false;
             show();
             i++;
-            System.out.println("at top:" + atTop());
-            System.out.println("game over" + isGameOver());
-            System.out.println(activeShape);
-            System.out.print(i);
-            System.out.println("INFINITE????");
-            printBoard();
             // if (i > 10 && atTop()) {
             //     flash();
             //     System.out.println("GAME OVER");
@@ -199,10 +193,10 @@ public class Board {
      * @return whether or not the shape is at the top of the board.
      */
     private static boolean atTop() {
-        if (activeShape == null) {
-            System.out.println("NULL");
-            return false;
-        }
+        // if (activeShape == null) {
+        //     System.out.println("NULL");
+        //     return false;
+        // }
         int y = (int) activeShape.getCoordinates().get(0).getY();
         if (y == 0) {
             return true;
@@ -216,7 +210,7 @@ public class Board {
      * @return a random shape.
      */
     private static Shape generateShape() {
-        int randomNum = (int) (Math.random() * 7); // generates a random number between 0 and 6
+        int randomNum = (int) (Math.random() * 7);
         Shape shape = null;
 
         switch(randomNum) {
@@ -266,11 +260,11 @@ public class Board {
     public static void flash() {
         printBoard();
         addDelay(150);
-        //clearScreen();
+        clearScreen();
         addDelay(150);
         printBoard();
         addDelay(150);
-        //clearScreen();
+        clearScreen();
         addDelay(150);
         printBoard();
     }
@@ -350,7 +344,7 @@ public class Board {
      */
     public static void shootShapeDown() {
         while (canMoveDown()) {
-            //clearScreen();
+            clearScreen();
             ArrayList<Point> old = new ArrayList<Point>();
             for (Point p : activeShape.getCoordinates()) {
                 int x = (int) p.getX();

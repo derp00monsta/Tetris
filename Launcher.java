@@ -30,7 +30,7 @@ public class Launcher {
         Board board = new Board();
         Scanner scanner = new Scanner(System.in);
 
-        //Board.clearScreen();
+        Board.clearScreen();
         System.out.println("Welcome to Tetris!");
         System.out.println("To play, it is best to extend your terminal.");
         System.out.println("The game ends when you choose to quit or when a new playable shape can not be added.");
@@ -54,7 +54,7 @@ public class Launcher {
             }
         }
 
-       // Board.clearScreen();
+        Board.clearScreen();
         Board.printBoard();
 
         while (!Board.isGameOver()) {
@@ -100,10 +100,10 @@ public class Launcher {
                     lost = true;
                     break;
             }
-            //Board.clearScreen();
+            Board.clearScreen();
             Board.moveDown();
             Board.addNewShape();
-           // Board.clearFullLines(); 
+           // Board.clearFullLines();  // TODO: see if this works
             System.out.println(Board.canMoveDown());
             Board.printBoard();
         }
