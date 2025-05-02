@@ -1,4 +1,4 @@
-package Game;
+package Code;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * @version 1.0
  * @since 1.0
  * 
- * Last Updated: 
+ * Last Updated: 2 May 2025
  */
 public class Board {
     private static Shape activeShape;
@@ -20,19 +20,24 @@ public class Board {
     private static boolean gameOver;
 
 
+    /**
+     * Creates a Tetris board.
+     */
     public Board() {
         board = new String[22][14];
         fullLines = 0;
         switchShape = true;
         gameOver = false;
-
         setBoard();
     }
 
+    /**
+     * Sets the template for the Tetris environment.
+     */
     public static void setBoard() {
         for (int i = board.length - 1; i >= 0; i--) {
             for (int j = 0; j < board[i].length; j++) {
-                if (i == board.length - 1) { // the bottom row
+                if (i == board.length - 1) { 
                     if (j == 0) {
                         board[i][j] = "  ";
                     }
@@ -43,19 +48,19 @@ public class Board {
                         board[i][j] = "  ";
                     }
                 }
-                else if (j == 1) { // the "! "
+                else if (j == 1) { 
                     board[i][j] = "!";
                 }
-                else if (j == board[i].length - 2) { // the "!"
+                else if (j == board[i].length - 2) { 
                     board[i][j] = "!";
                 }
-                else if (j == board[i].length - 1) { // the righmost column
+                else if (j == board[i].length - 1) { 
                     board[i][j] = ">";
                 }
-                else if (j == 0) { // the leftmost column
+                else if (j == 0) { 
                     board[i][j] = "<";
                 }
-                else { // everything inbetween
+                else { 
                     board[i][j] = " .";
                 }
             }
@@ -89,7 +94,6 @@ public class Board {
 
     /**
      * Prints the board to the console.
-     * 
      */
     public static void printBoard() {
         System.out.println();
@@ -104,7 +108,6 @@ public class Board {
 
     /**
      * Clears the content displayed on the screen.
-     * 
      */
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
@@ -116,14 +119,8 @@ public class Board {
      * 
      * @return whether or not the game has ended.
      */
-    public static boolean isGameOver() { // recursion???? // how can you do this without a helper method?
+    public static boolean isGameOver() {
         return !canFitNewShape();
-        // for (int j = 0; j < board[0].length; j++) {
-        //     if (isColumnFull(j)) {
-        //         return true;
-        //     }
-        // }
-        // return false;
     }
 
     /**
@@ -143,42 +140,17 @@ public class Board {
 
     /**
      * Adds a new block to the board using a randomly generated shape from the Shape class.
-     * 
      */
     public static void addNewShape() { 
-        // if (!switchShape) {
-        //     boolean successful = false;
-        //     while (!successful) {
-        //         activeShape = generateShape();
-        //         show();
-        //         int x = (int) activeShape.getCoordinates().get(0).getX();
-        //         int y = (int) activeShape.getCoordinates().get(0).getY();
-        //         if (hasBlock(x, y)) {
-        //             successful = true;
-        //         }
-        //     }
-        // }
         int i = 0;
         while (!canMoveDown() && canFitNewShape()) { //definetly infinite
             activeShape = generateShape();
-            // switchShape = false;
             show();
             i++;
-            // if (i > 10 && atTop()) {
-            //     flash();
-            //     System.out.println("GAME OVER");
-            //     System.exit(0);
-            //     break;
-            // }
-
-            // if (i >= 10) {
-            //     System.out.println("GAME OVER");
-            //     System.exit(0);
-            // }
         }
     }
     
-    private static boolean canFitNewShape() { //this is working but now make it dependent on what the next shape will be
+    private static boolean canFitNewShape() { 
         for (String str : board[4]) {
             if (str.equals("[]")) {
                 return false;
@@ -193,10 +165,6 @@ public class Board {
      * @return whether or not the shape is at the top of the board.
      */
     private static boolean atTop() {
-        // if (activeShape == null) {
-        //     System.out.println("NULL");
-        //     return false;
-        // }
         int y = (int) activeShape.getCoordinates().get(0).getY();
         if (y == 0) {
             return true;
@@ -243,19 +211,17 @@ public class Board {
 
     /**
      * Makes the new shape visible.
-     * 
      */
     public static void show() {
         for (Point point : activeShape.getCoordinates()) {
             int x = (int) point.getX();
             int y = (int) point.getY();
-            board[y][x] = "[]"; // display the shape on the board
+            board[y][x] = "[]"; 
         }
     }
 
     /**
      * Flashes the board display.
-     * 
      */
     public static void flash() {
         printBoard();
@@ -271,7 +237,6 @@ public class Board {
 
     /**
      * Refreshes the location of the shape on the board.
-     * 
      */
     public static void refreshPose(ArrayList<Point> old) {
         for (Point point : old) {
@@ -283,13 +248,12 @@ public class Board {
         for (Point point : activeShape.getCoordinates()) {
             int x = (int) point.getX();
             int y = (int) point.getY();
-            board[y][x] = "[]"; // display the shape on the board
+            board[y][x] = "[]"; 
         }
     }
 
     /**
      * Moves the shape down by one block.
-     * 
      */
     public static void moveDown() {
         if (canMoveDown()) {
@@ -299,7 +263,6 @@ public class Board {
 
     /**
      * Moves the shape left by one block and refreshes the board.
-     * 
      */
     public static void moveLeft() throws Exception {
         if (!canMoveLeft()) {
@@ -313,14 +276,13 @@ public class Board {
     
                 old.add(new Point(x, y));
             }
-            activeShape.moveLeft(); // move the shape left by one block
+            activeShape.moveLeft(); 
             refreshPose(old);
         }
     }
 
     /**
      * Moves the shape right by one block and refreshes the board.
-     * 
      */
     public static void moveRight() throws Exception {
         if (!canMoveRight()) {
@@ -333,14 +295,13 @@ public class Board {
 
             old.add(new Point(x, y));
         }
-        activeShape.moveRight(); // move the shape right by one block
+        activeShape.moveRight(); 
         activeShape.moveDown();
         refreshPose(old);
     }
 
     /**
      * Changes coordinates of the shape and refreshes the board.
-     * 
      */
     public static void shootShapeDown() {
         while (canMoveDown()) {
@@ -432,7 +393,6 @@ public class Board {
 
     }
 
-    // this should shift all blocks above row y down
     /**
      * Shifts all blocks that are above row y to clear the full lines
      * 
@@ -453,13 +413,11 @@ public class Board {
 
     /**
      * Clears the lines that are full and updates the number of full lines created by the player
-     * 
      */
     public static void clearFullLines() {
-        int fullLines = 0; //used to move everything down by the number of lines cleared
+        int fullLines = 0;
         ArrayList<Integer> linesToClear = new ArrayList<Integer>();
 
-        // check which lines should be cleared
         for (int i = 0; i < board.length; i++) {
             if (isRowFull(i)) {
                 fullLines++;
@@ -468,7 +426,6 @@ public class Board {
             }
         }
 
-        // clear the lines that are full
         for (Integer row : linesToClear) {
             clearLine(row);
         }
