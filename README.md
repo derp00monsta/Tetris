@@ -4,7 +4,7 @@
 This game is played in the terminal and is meant to mimic the original Tetris game created in 1985 by Russian software engineer [Alexey Pajitnov](<https://www.britannica.com/biography/Alexey-Pajitnov>). After playing the board game [pentomino](<https://web.ma.utexas.edu/users/smmg/archive/1997/radin.html>) in his office, Alexey Pajitnov decided to create a version of it virtually, which became the popular game of Tetris of the GameBoy. This game is not complete yet and the only way for the game to end is by quitting or losing.
 ```
 <! . . . . . . . . . .!>
-<! . . . . . . . . . .!>
+<! . . . . . . . . . .!>  
 <! . . . . . . . . . .!>
 <! . . . . . . . . . .!>
 <! . . . . . . . . . .!>
@@ -30,9 +30,9 @@ This game is played in the terminal and is meant to mimic the original Tetris ga
 ### 🔎 Features:
 There is a grid composed of characters that represent the boundaries of the game and the shapes that are manipulated. A block is represented by "[]". The following shapes may be found in the game.
 ```
-   []   [][][]    [][]        []     [][]    []        [][]
-   []     []        [][]      []     [][]    []      [][]
- [][]                         []             [][]
+   []               [][]      []     [][]    []     
+   []     [][]      [][]      []     [][]    []          [][]
+ [][]     [][]                []             [][]      [][]
                               []
 ```
 Future implementations aim to calculate a score based on the number of lines filled and then clear them.
