@@ -30,8 +30,8 @@ This game is played in the terminal and is meant to mimic the original Tetris ga
 ### 🔎 Features:
 There is a grid composed of characters that represent the boundaries of the game and the shapes that are manipulated. A block is represented by "[]". The following shapes may be found in the game.
 ```
-   []   [][][]    [][]        []     [][]    []        
-   []     []        [][]      []     [][]    []
+   []   [][][]    [][]        []     [][]    []        [][]
+   []     []        [][]      []     [][]    []      [][]
  [][]                         []             [][]
                               []
 ```
