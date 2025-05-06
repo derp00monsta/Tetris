@@ -1,7 +1,7 @@
 ## TETRIS 🟥🟧🟨🟩🟦🟪⬜
 
 ### Project Description:
-This game is played in the terminal and is meant to mimic the original Tetris game created in 1985 by Russian software engineer [Alexey Pajitnov](<https://www.britannica.com/biography/Alexey-Pajitnov>). After playing the board game [pentomino](<https://web.ma.utexas.edu/users/smmg/archive/1997/radin.html>) in his office, Alexey Pajitnov decided to create a version of it virtually, which became the popular game of Tetris of the GameBoy. My recreation of the game is not complete yet and the only way for the game to end is by quitting or losing.
+This game is played in the terminal and is meant to mimic the original Tetris game created in 1985 by Russian software engineer [Alexey Pajitnov](<https://www.britannica.com/biography/Alexey-Pajitnov>). After playing the board game [pentomino](<https://web.ma.utexas.edu/users/smmg/archive/1997/radin.html>) in his office, Alexey Pajitnov decided to create a version of it virtually, which became a popular game on the original GameBoy. My recreation of the game is not complete yet and the only way for the game to end is by quitting or losing.
 ```
 <! . . . . . . . . . .!>
 <! . . . . . . . . . .!>  
