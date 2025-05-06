@@ -1,38 +1,37 @@
-package Code;
+package code.shapes;
 
-import java.awt.Point;
 import java.util.ArrayList;
+import java.awt.Point;
 
 /**
- * Filename: J.java
+ * Filename: S.java
  * 
  * @author Tina Hague
  * @version 1.0
  * @since 1.0
  * 
- * Last Updated: 2 May 2025
+ * Last updated: 5 May 2025
  */
-public class J extends Shape {
-    private static ArrayList<Point> coordinates = new ArrayList<>();
+public class S extends Shape {
+    private static ArrayList<Point> coordinates = new ArrayList<Point>();
     static {
         coordinates.add(new Point(7, 0));
         coordinates.add(new Point(7, 1));
-        coordinates.add(new Point(7, 2));
-        coordinates.add(new Point(6, 2));
+        coordinates.add(new Point(8, 0));
+        coordinates.add(new Point(6, 1));
     }
 
     /**
-     * Creates a new J shape.
+     * Creates a new S shape.
      */
-    public J() {
+    public S() {
         super(coordinates);
     }
 
-    @Override
     /**
      * String representation of the shape.
      */
     public String toString() {
-        return "J";
+        return "S";
     }
 }

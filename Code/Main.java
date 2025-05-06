@@ -1,5 +1,4 @@
-package Code;
-
+package code;
 
 import java.util.Scanner;
 
@@ -12,7 +11,7 @@ import java.util.Scanner;
  * 
  * Last Updated: 2 May 2025
  */
-public class Launcher {
+public class Main {
     public static void main(String[] args) {
         Board board = new Board();
         Scanner scanner = new Scanner(System.in);
@@ -89,7 +88,6 @@ public class Launcher {
             Board.clearScreen();
             Board.moveDown();
             Board.addNewShape();
-            System.out.println(Board.canMoveDown());
             Board.printBoard();
         }
         Board.flash();

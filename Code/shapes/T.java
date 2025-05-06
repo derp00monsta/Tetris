@@ -1,4 +1,4 @@
-package Code;
+package code.shapes;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -10,10 +10,10 @@ import java.util.ArrayList;
  * @version 1.0
  * @since 1.0
  * 
- * Last updates: 2 May 2025
+ * Last updates: 5 May 2025
  */
 public class T extends Shape {
-    private static ArrayList<Point> coordinates = new ArrayList<>();
+    private static ArrayList<Point> coordinates = new ArrayList<Point>();
     static {
         coordinates.add(new Point(6, 0));
         coordinates.add(new Point(7, 0));
@@ -28,7 +28,6 @@ public class T extends Shape {
         super(coordinates);
     }
 
-    @Override
     /**
      * String representation of the shape.
      */

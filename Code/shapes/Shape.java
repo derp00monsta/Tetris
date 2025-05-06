@@ -1,7 +1,16 @@
-package Code;
+package code.shapes;
 import java.awt.Point;
 import java.util.ArrayList;
 
+/**
+ * Filename: Shape.java
+ * 
+ * @author Tina Hague
+ * @version 1.0
+ * @since 1.0
+ * 
+ * Last updated: 5 May 2025
+ */
 public class Shape {
     private ArrayList<Point> coordinates;
 
@@ -20,7 +29,6 @@ public class Shape {
 
     /**
      * Moves the shape left by one block.
-     * 
      */
     public void moveLeft() {
         for (int i = 0; i < coordinates.size(); i++) {
@@ -32,7 +40,6 @@ public class Shape {
 
     /**
      * Moves the shape right by one block.
-     * 
      */
     public void moveRight() {
         for (int i = 0; i < coordinates.size(); i++) {
